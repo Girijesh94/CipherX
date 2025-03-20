@@ -1,0 +1,6 @@
+scapy
+pyshark
+pandas
+numpy
+sklearn
+flask

@@ -1,0 +1,5 @@
+firewall:
+  block_method: "iptables"  # or "netsh" for Windows
+model:
+  contamination: 0.05
+  n_estimators: 100

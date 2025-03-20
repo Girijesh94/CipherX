@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CipherX - Threat Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        .high-risk { background-color: #ff4d4d; color: white; }  /* 🔴 Red */
+        .medium-risk { background-color: #ffa500; color: white; } /* 🟠 Orange */
+        .low-risk { background-color: #32cd32; color: white; }    /* ✅ Green */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mt-4">🔒 CipherX - Threat Dashboard</h1>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered mt-4">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Source IP</th>
+                        <th>Destination IP</th>
+                        <th>Protocol</th>
+                        <th>Anomaly Score</th>
+                        <th>Risk Level</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for alert in data %}
+                    <tr>
+                        <td>{{ alert.src_ip }}</td>
+                        <td>{{ alert.dst_ip }}</td>
+                        <td>{{ alert.protocol }}</td>
+                        <td class="{% if alert.anomaly_score > 0.5 %}high-risk{% elif alert.anomaly_score > 0.2 %}medium-risk{% else %}low-risk{% endif %}">
+                            {{ alert.anomaly_score }}
+                        </td>
+                        <td>
+                            {% if alert.anomaly_score > 0.5 %}
+                                🔴 High Risk
+                            {% elif alert.anomaly_score > 0.2 %}
+                                🟠 Medium Risk
+                            {% else %}
+                                ✅ Normal
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
